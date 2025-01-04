@@ -1,0 +1,3 @@
+[submodule "Assets/ParrelSync"]
+	path = Assets/ParrelSync
+	url = https://github.com/VeriorPies/ParrelSync.git
