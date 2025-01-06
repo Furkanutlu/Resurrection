@@ -12,6 +12,7 @@ namespace FU
 
         public void SetNewStaminaValue(float oldValue, float newValue)
         {
+
             staminaBar.SetStat(Mathf.RoundToInt(newValue));
         }
 

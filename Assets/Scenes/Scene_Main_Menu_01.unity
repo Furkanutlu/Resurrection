@@ -855,7 +855,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1399627066}
-        m_TargetAssemblyTypeName: SG.TitleScreenManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: FU.TitleScreenManager, Assembly-CSharp
         m_MethodName: StartNetworkAsHost
         m_Mode: 1
         m_Arguments:

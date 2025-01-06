@@ -34,6 +34,7 @@ namespace FU
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
+            
         }
 
         // A SERVER RPC IS A FUNCTION CALLED FROM A CLIENT, TO THE SERVER (IN OUR CASE THE HOST)

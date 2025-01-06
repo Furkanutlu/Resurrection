@@ -25,7 +25,7 @@ namespace FU
                 Destroy(gameObject);
             }
 
-            playerUIHudManager = GetComponent<PlayerUIHudManager>();
+            playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
         }
         private void Start()
         {

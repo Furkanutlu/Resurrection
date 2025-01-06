@@ -33,6 +33,9 @@ namespace FU
 
             //Handle movement
             playerLocomotionManager.HandleAllMovement();
+
+            // Regen Stamina
+            playerStatsManager.RegenerateStamina();
         }
 
         protected override void LateUpdate()
@@ -55,46 +58,19 @@ namespace FU
             base.OnNetworkSpawn();
 
 
-            if (PlayerUIManager.instance == null)
-            {
-                Debug.Log("UI Manager BULUNAMADI!");
-            }
-            else
-            {
-                Debug.Log("UI Manager VAR!");
-                if (PlayerUIManager.instance.playerUIHudManager == null)
-                    Debug.Log("playerUIHudManager null!");
-                else
-                    Debug.Log("playerUIHudManager da var!");
-            }
-
-            if (PlayerUIManager.instance == null)
-            {
-                PlayerUIManager.instance = FindObjectOfType<PlayerUIManager>();
-            }
-
             //if this is the player object owned by this client
             if (IsOwner)
             {
                 PlayerCamera.instance.player = this;
                 PlayerInputManager.instance.player = this;
 
-                if (PlayerUIManager.instance != null &&
-    PlayerUIManager.instance.playerUIHudManager != null)
-                {
-                    playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
-                }
-                
+                playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
+                playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
 
                 playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStamaninaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
                 playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStamaninaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
+                PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
                 
-
-                if (PlayerUIManager.instance != null &&
-PlayerUIManager.instance.playerUIHudManager != null)
-                {
-                    PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
-                }
             }
         }
     }

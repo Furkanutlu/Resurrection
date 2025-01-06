@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,15 +16,24 @@ namespace FU
         [Header("Movement Settings")]
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
+        
         [SerializeField] float walkingSpeed = 2;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 6.5f;
         [SerializeField] float rotationSpeed = 15;
         [SerializeField] int sprintingStaminaCost = 2;
 
+        [Header("Jump")]
+        [SerializeField] float jumpHeight = 4;
+        [SerializeField] float jumpStaminaCost = 25;
+        [SerializeField] float jumpForwardSpeed = 5;
+        [SerializeField] float freeFallSpeed = 2;
+        private Vector3 jumpDirection;
+
         [Header("Dodge")]
         private Vector3 rollDirection;
-
+        [SerializeField] float dodgeStaminaCost = 25;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -60,7 +70,8 @@ namespace FU
             //Grounded Movement
             HandleGroundedMovement();
             HandleRotation();
-            
+            HandleJumpingMovement();
+            HandleFreeFallMovement();
             //Aerial Movement
         }
 
@@ -105,27 +116,64 @@ namespace FU
 
             
         }
+
+        private void HandleJumpingMovement()
+        {
+            if (player.isJumping)
+            {
+                player.characterController.Move(jumpDirection * jumpForwardSpeed *Time.deltaTime);
+            }
+        }
+
+        private void HandleFreeFallMovement()
+        {
+            if (!player.isGrounded) // Havada ise
+            {
+                Vector3 freeFallDirection;
+
+                // Kamera yönüne göre hareket yönü hesapla
+                freeFallDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+                freeFallDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+                freeFallDirection.y = 0;
+
+                // Karakteri hareket ettir
+                player.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
+
+                // Hareket yönüne doğru döndür
+                if (freeFallDirection.magnitude > 0.1f)
+                {
+                    Quaternion newRotation = Quaternion.LookRotation(freeFallDirection);
+                    player.transform.rotation = Quaternion.Slerp(player.transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+                }
+            }
+        }
+
+
         private void HandleRotation()
         {
             if (!player.canRotate)
                 return;
 
+            // Hedef rotasyon yönü hesapla
             targetRotationDirection = Vector3.zero;
             targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
             targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
             targetRotationDirection.Normalize();
             targetRotationDirection.y = 0;
 
-            if(targetRotationDirection == Vector3.zero)
+            // Eğer hareket yönü yoksa eski rotasyonu koru
+            if (targetRotationDirection == Vector3.zero)
             {
                 targetRotationDirection = transform.forward;
             }
 
+            // Yeni rotasyona dön
             Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
             Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
             transform.rotation = targetRotation;
         }
-       public void HandleSprinting()
+
+        public void HandleSprinting()
         {
             if (player.isPerformingAction)
             {
@@ -149,8 +197,13 @@ namespace FU
 
             if (player.playerNetworkManager.isSprinting.Value)
             {
-                player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
+                player.playerNetworkManager.currentStamina.Value = Mathf.Clamp(
+                    player.playerNetworkManager.currentStamina.Value - sprintingStaminaCost * Time.deltaTime,
+                    0,
+                    player.playerNetworkManager.maxStamina.Value
+                );
             }
+
 
 
         }
@@ -159,6 +212,8 @@ namespace FU
             if (player.isPerformingAction)
                 return;
 
+            if (player.playerNetworkManager.currentStamina.Value < dodgeStaminaCost)
+                return;
 
             // if we are moving when we attempt the dodge, we perform a roll
             if(PlayerInputManager.instance.moveAmount > 0)
@@ -177,7 +232,61 @@ namespace FU
             {
                 player.playerAnimatorManager.PlayTargetActionAnimation("Back_Step_01", true, true);
             }
+
+            player.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
         }
+
+        public void AttemptToPerformJump()
+        {
+            if (player.isPerformingAction)
+                return;
+
+            if (player.playerNetworkManager.currentStamina.Value < dodgeStaminaCost)
+                return;
+
+            if (player.isJumping)
+                return;
+
+            if (!player.isGrounded)
+                return;
+
+            player.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump_01", false);
+
+            player.isJumping = true;
+
+            player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+
+            jumpDirection = PlayerCamera.instance.cameraObject.transform.forward * PlayerInputManager.instance.verticalInput;
+            jumpDirection += PlayerCamera.instance.cameraObject.transform.right * PlayerInputManager.instance.horizontalInput;
+            jumpDirection.y = 0;
+
+            if(jumpDirection != Vector3.zero)
+            {
+                if (player.playerNetworkManager.isSprinting.Value)
+                {
+                    jumpDirection *= 1;
+                }
+                else if (PlayerInputManager.instance.moveAmount > 0.5)
+                {
+                    jumpDirection *= 0.5f;
+                }
+                else if (PlayerInputManager.instance.moveAmount <= 0.5)
+                {
+                    jumpDirection *= 0.25f;
+                }
+                Quaternion jumpRotation = Quaternion.LookRotation(jumpDirection);
+                player.transform.rotation = jumpRotation;
+            }
+
+
+        }
+
+        public void ApplyJumpingVelocity()
+        {
+            yVelocity.y = MathF.Sqrt(jumpHeight * -2 * gravityForce);
+        }
+
+
 
 
     }

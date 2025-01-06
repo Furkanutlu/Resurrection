@@ -18,6 +18,7 @@ namespace FU
             character.applyRootMotion = false;
             character.canMove = true;
             character.canRotate = true;
+            character.isJumping = false;
             
         }
 

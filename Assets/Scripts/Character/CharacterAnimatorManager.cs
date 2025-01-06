@@ -25,7 +25,6 @@ namespace FU
             if (isSprinting)
             {
                 verticalMovement = 2;
-                Debug.Log("2");
             }
 
             character.animator.SetFloat("Horizontal", horizontalMovement, 0.1f, Time.deltaTime);

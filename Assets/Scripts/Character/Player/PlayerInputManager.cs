@@ -28,6 +28,7 @@ namespace FU
         [Header("Player Action Input")]
         [SerializeField] bool dodgeInput = false;
         [SerializeField] bool sprintInput = false;
+        [SerializeField] bool jumpInput = false;
 
         // New variables
         private bool isRightMousePressed = false;
@@ -98,6 +99,9 @@ namespace FU
                 // Sprint Input
                 playerControls.PlayerAction.Sprint.performed += i => sprintInput = true; //holding
                 playerControls.PlayerAction.Sprint.canceled += i => sprintInput = false;
+
+                // Jump Input
+                playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
             }
 
             playerControls.Enable();
@@ -140,7 +144,8 @@ namespace FU
             HandleCameraMovementInput();
             HandleMouseCameraInput();
             HandleDodgeInput();
-            HandleSprinting();
+            HandleSprintingInput();
+            HandleJumpInput();
         }
 
         private void HandlePlayerMovementInput()
@@ -205,7 +210,7 @@ namespace FU
             }
         }
 
-        private void HandleSprinting()
+        private void HandleSprintingInput()
         {
             if (sprintInput)
             {
@@ -215,6 +220,16 @@ namespace FU
             else
             {
                 player.playerNetworkManager.isSprinting.Value = false;
+            }
+        }
+
+        private void HandleJumpInput()
+        {
+            if (jumpInput)
+            {
+                jumpInput = false;
+
+                player.playerLocomotionManager.AttemptToPerformJump();
             }
         }
     }

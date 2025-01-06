@@ -6,7 +6,6 @@ namespace FU
 {
     public class PlayerNetworkManager : CharacterNetworkManager
     {
-
     }
 }
 
