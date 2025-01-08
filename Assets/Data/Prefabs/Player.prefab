@@ -218,6 +218,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0ad932253e8dc8841948afa5d1a0d051,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1176686548608896205, guid: 0ad932253e8dc8841948afa5d1a0d051,
         type: 3}
       propertyPath: m_Layer
@@ -518,14 +523,16 @@ MonoBehaviour:
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
-  jumpHeight: 4
   walkingSpeed: 1.5
   runningSpeed: 4.5
   sprintingSpeed: 7
   rotationSpeed: 15
   sprintingStaminaCost: 2
-  dodgeStaminaCost: 25
+  jumpHeight: 4
   jumpStaminaCost: 25
+  jumpForwardSpeed: 5
+  freeFallSpeed: 2
+  dodgeStaminaCost: 25
 --- !u!143 &6162387821133580611
 CharacterController:
   m_ObjectHideFlags: 0
@@ -545,7 +552,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.8
+  m_Height: 1.7
   m_Radius: 0.23
   m_SlopeLimit: 45
   m_StepOffset: 0.3

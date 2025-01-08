@@ -3,7 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - "G\xF6rev_K\u0131l\u0131c\u0131"
+  - "G\xF6rev_SuTulumu"
+  - "G\xF6rev_Mor\u0130ksir"
+  - "G\xF6rev_Ye\u015Fil\u0130ksir"
+  - "G\xF6rev_Kitap"
+  - "G\xF6rev_Par\u015F\xF6men"
+  - "G\xF6rev_Dirgen"
+  - "G\xF6rev_Kalkan"
+  - "G\xF6rev_Balta"
+  - "G\xF6rev_T\u0131rpan"
+  - "G\xF6rev_G\xFCne\u015F"
+  - "G\xF6rev_Alt\u0131nElma"
+  - "G\xF6rev_Ay"
+  - "G\xF6rev_Y\u0131ld\u0131z"
+  - "G\xF6rev_Asa"
   layers:
   - Default
   - TransparentFX

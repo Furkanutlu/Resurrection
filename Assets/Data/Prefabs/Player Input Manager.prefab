@@ -45,7 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14c477ab3a815d4d884bfce94ae716a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1850112960380979236, guid: 080a019073bcd8f46b78a12d96ea5165, type: 3}
+  cameraInput: {x: 0, y: 0}
+  cameraverticalInput: 0
+  camerahorizontalInput: 0
   movementInput: {x: 0, y: 0}
+  verticalInput: 0
+  horizontalInput: 0
+  moveAmount: 0
+  dodgeInput: 0
+  sprintInput: 0
+  jumpInput: 0
+  mouseSensitivity: 0.1
 --- !u!114 &7535138076913184335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +84,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

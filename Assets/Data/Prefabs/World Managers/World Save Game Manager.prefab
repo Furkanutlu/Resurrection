@@ -45,3 +45,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSceneIndex: 1
+  gameTime: 240
+  timerText: {fileID: 0}
+  tasks:
+  - name: "G\xF6k Tanr\u0131'n\u0131n K\u0131l\u0131c\u0131"
+    description: "G\xF6k Tanr\u0131'n\u0131n kutsal k\u0131l\u0131c\u0131, Tengri
+      Da\u011F\u0131'n\u0131n zirvesinde saklanm\u0131\u015F."
+    isCompleted: 0
+  - name: "Umay Ana'n\u0131n Su Tulumu"
+    description: "Umay Ana'n\u0131n \u015Fifal\u0131 suyu, k\xF6y\xFCn merkezindeki
+      kutsal kuyunun yan\u0131nda bulunuyor."
+    isCompleted: 0
+  - name: "Kutsal Mor \u0130ksir"
+    description: "Bilgelik getiren iksir, k\xF6y meydan\u0131ndaki tezg\xE2hlar\u0131n
+      birinde sakl\u0131."
+    isCompleted: 0
+  - name: "Do\u011Fa'n\u0131n Ye\u015Fil \u0130ksiri"
+    description: "Do\u011Fa Ana'n\u0131n ruhunu temsil eden iksir, k\xF6y meydan\u0131ndaki
+      tezg\xE2hlar\u0131n birinde."
+    isCompleted: 0
+  - name: "Bilgelik Kitab\u0131"
+    description: "Bilgelik Kitab\u0131, Bilge Ka\u011Fan'\u0131n evinin \xF6n\xFCndeki
+      a\u011Fac\u0131n alt\u0131nda sakl\u0131."
+    isCompleted: 0
+  - name: "U\xE7an Hal\u0131 Par\u015F\xF6meni"
+    description: "Efsanevi u\xE7an hal\u0131n\u0131n s\u0131rr\u0131n\u0131 ta\u015F\u0131yan
+      par\u015F\xF6men, nehrin bir ucunda bulunuyor."
+    isCompleted: 0
+  - name: Demirci'nin Dirgeni
+    description: "Efsanevi demirci Korkut'un dirgeni, merkezin biraz d\u0131\u015F\u0131nda
+      yerde duruyor."
+    isCompleted: 0
+  - name: "Kutsal Sava\u015F Kalkan\u0131"
+    description: "Alp Er Tunga'n\u0131n kalkan\u0131, kutsal da\u011F\u0131n zirvesinden
+      d\xFC\u015Fm\xFC\u015F."
+    isCompleted: 0
+  - name: "Ergenekon Baltas\u0131"
+    description: "Demir Da\u011F\u0131 delen efsanevi balta, karlar\u0131n yak\u0131n\u0131ndaki
+      bir yerde saklanm\u0131\u015F."
+    isCompleted: 0
+  - name: "Azrail'in T\u0131rpan\u0131"
+    description: "Azrail'in t\u0131rpan\u0131, k\xF6y\xFCn karl\u0131 da\u011Flara
+      bakan taraf\u0131nda bekliyor."
+    isCompleted: 0
+  - name: "G\xFCne\u015F Sembol\xFC"
+    description: "G\xFCne\u015F'in g\xFCc\xFCn\xFC temsil eden sembol, evlerin \xE7at\u0131lar\u0131nda
+      parl\u0131yor."
+    isCompleted: 0
+  - name: "Alt\u0131n Elma"
+    description: "Kutsal Alt\u0131n Elma, nehrin ucunda bir yerlerde gizlenmi\u015F."
+    isCompleted: 0
+  - name: "Ay Sembol\xFC"
+    description: "Ay Ana'n\u0131n g\xFCc\xFCn\xFC temsil eden sembol, Y\u0131ld\u0131z
+      sembol\xFCn\xFCn yan\u0131nda duruyor."
+    isCompleted: 0
+  - name: "Y\u0131ld\u0131z Sembol\xFC"
+    description: "G\xF6ky\xFCz\xFCndeki y\u0131ld\u0131zlar\u0131 temsil eden sembol,
+      Ay sembol\xFCn\xFCn yan\u0131nda."
+    isCompleted: 0
+  - name: "\u015Eaman'\u0131n Asas\u0131"
+    description: "Kadim \u015Faman\u0131n asas\u0131, karlarla kapl\u0131 bir kul\xFCbenin
+      i\xE7inde sakl\u0131."
+    isCompleted: 0
+  taskPrefab: {fileID: 4080104837997332322, guid: ce90d9464f0b1af4b9e6f0b27ab6950c,
+    type: 3}
+  taskListParent: {fileID: 0}
+  winCanvas: {fileID: 0}
+  loseCanvas: {fileID: 0}

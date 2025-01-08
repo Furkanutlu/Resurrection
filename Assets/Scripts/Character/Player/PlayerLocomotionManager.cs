@@ -286,6 +286,17 @@ namespace FU
             yVelocity.y = MathF.Sqrt(jumpHeight * -2 * gravityForce);
         }
 
+        public void TeleportPlayer(Vector3 targetPosition)
+        {
+            // Hareketi durdur
+            moveDirection = Vector3.zero;
+            player.characterController.enabled = false; // Collider güncellemesini yapabilmek için devre dışı bırak
+            transform.position = targetPosition;       // Yeni pozisyona ışınla
+            player.characterController.enabled = true; // Collider'ı tekrar etkinleştir
+
+            Debug.Log($"Player teleported to: {targetPosition}");
+        }
+
 
 
 

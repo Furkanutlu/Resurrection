@@ -20,6 +20,8 @@ namespace FU
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
            playerStatsManager = GetComponent<PlayerStatsManager>();
+
+            DontDestroyOnLoad(gameObject);
         }
 
         protected override void Update()
