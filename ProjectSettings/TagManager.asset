@@ -19,6 +19,8 @@ TagManager:
   - "G\xF6rev_Ay"
   - "G\xF6rev_Y\u0131ld\u0131z"
   - "G\xF6rev_Asa"
+  - WinCanvasTag
+  - LoseCanvasTag
   layers:
   - Default
   - TransparentFX

@@ -16,11 +16,6 @@ namespace FU
         [Header("Scene Management")]
         [SerializeField] private int worldSceneIndex = 1;
 
-        [Header("Timer")]
-        [SerializeField] private float gameTime = 240;
-        [SerializeField] private TextMeshProUGUI timerText;
-        private bool isGameOver = false;
-
         private List<Task> activeTasks;
 
         [System.Serializable]
@@ -74,38 +69,7 @@ namespace FU
             { "Şaman'ın Asası", "Görev_Asa" }
         };
 
-        private int remainingTasks;
-
-        #region End Game
-
-
-        [SerializeField] private Canvas winCanvas; // Win Canvas'ı
-        [SerializeField] private Canvas loseCanvas; // Lose Canvas'ı
-
-        private void EndGame(bool isWin)
-        {
-            isGameOver = true;
-
-            if (isWin)
-            {
-                
-                winCanvas.gameObject.SetActive(true); // Win Canvas'ını aktifleştir
-            }
-            else
-            {
-                
-                loseCanvas.gameObject.SetActive(true); // Lose Canvas'ını aktifleştir
-            }
-
-            StartCoroutine(CloseGameAfterDelay(5f));
-        }
-
-        private IEnumerator CloseGameAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            Application.Quit();
-        }
-        #endregion
+        public int remainingTasks; // Kazanma durumunu kontrol etmek için public yapıldı
 
         private void Awake()
         {
@@ -122,46 +86,12 @@ namespace FU
 
         private void Start()
         {
-            activeTasks = GetRandomTasks(5); // Aktif görevleri burada oluştur ve sakla
+            activeTasks = GetRandomTasks(5);
             PopulateTasks();
             UpdateMissionObjectVisibility();
             remainingTasks = 5;
+            Debug.Log("Oyun Başladı! Kalan Görev Sayısı: " + remainingTasks);
         }
-
-        private void Update()
-        {
-            HandleTimer();
-        }
-
-        #region Timer Management
-        private void HandleTimer()
-        {
-            if (!isGameOver)
-            {
-                if (gameTime > 0)
-                {
-                    gameTime -= Time.deltaTime;
-                    UpdateTimerUI();
-                }
-                else
-                {
-                    isGameOver = true;
-                    EndGame(false);
-                }
-            }
-        }
-
-        private void UpdateTimerUI()
-        {
-            int minutes = Mathf.FloorToInt(gameTime / 60);
-            int seconds = Mathf.FloorToInt(gameTime % 60);
-
-            if (timerText != null)
-            {
-                timerText.text = $"{minutes:00}:{seconds:00}";
-            }
-        }
-        #endregion
 
         #region Task Management
 
@@ -189,7 +119,6 @@ namespace FU
                 Destroy(child.gameObject);
             }
 
-            // activeTasks listesini kullanarak görevleri listele
             foreach (var task in activeTasks)
             {
                 GameObject taskObject = Instantiate(taskPrefab, taskListParent);
@@ -211,7 +140,7 @@ namespace FU
         public void UpdateMissionObjectVisibility()
         {
             Transform missionObjectsParent = GameObject.Find("MissionObjects").transform;
-            List<Task> activeTasks = GetRandomTasks(5); // 5 rastgele görevi al
+
 
             // Aktif görevlere ait nesneleri listele
             List<GameObject> activeObjects = new List<GameObject>();
@@ -253,7 +182,7 @@ namespace FU
 
         public void CompleteTaskByName(string taskName)
         {
-            Task task = activeTasks.Find(t => t.name == taskName); // activeTasks listesinden ara
+            Task task = activeTasks.Find(t => t.name == taskName);
             if (task != null)
             {
                 task.isCompleted = true;
@@ -263,6 +192,7 @@ namespace FU
                 UpdateTaskUI(taskName);
             }
         }
+
         private void UpdateTaskUI(string taskName)
         {
             // taskName'e göre UI elementini bulun ve güncelleyin
@@ -284,14 +214,20 @@ namespace FU
             return activeTasks.Any(t => t.name == taskName);
         }
 
-        private void HandleObjectCollected()
+        public void HandleObjectCollected()
         {
             remainingTasks--;
-            Debug.Log($"Kalan görev sayısı: {remainingTasks}");
+            Debug.Log($"Nesne Toplandı! Kalan görev sayısı: {remainingTasks}");
 
-            if (remainingTasks == 0)
+            // Kazanma Durumunu GameManager'a Bildir
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
             {
-                EndGame(true);
+                gameManager.CheckWinCondition();
+            }
+            else
+            {
+                Debug.LogError("GameManager bulunamadı! Kazanma durumu kontrol edilemiyor.");
             }
         }
 
@@ -309,10 +245,6 @@ namespace FU
             return worldSceneIndex;
         }
 
-        public void ToggleDescription(GameObject descriptionText)
-        {
-            descriptionText.SetActive(!descriptionText.activeSelf);
-        }
         #endregion
     }
 }
